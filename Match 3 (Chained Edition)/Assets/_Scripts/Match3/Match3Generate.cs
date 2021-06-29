@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class Match3Generate : MonoBehaviour
@@ -35,23 +36,22 @@ public class Match3Generate : MonoBehaviour
 
     public void CreateStartingCombos()
     {
+        chainedNodes.Clear();
+
         if (generatedCombos < GameManager.Instance.GameCustomization.GetStartingCombos)
         {
-            // Generate New List.
+            // Generate New List with exclusions.
             List<GridNode> availableNodes = GameManager.Instance.LevelController.NodesArray;
-            if (exclude != null)
-            {
-                availableNodes = nodes.Except(exclude).ToList();
-            }
+            if (exclude != null) { availableNodes = nodes.Except(exclude).ToList(); }
 
-            // Get Random Node & Exclude
-            GridNode currentNode = nodes[Random.Range(0, availableNodes.Count)];
-            chainedNodes.Add(currentNode);
-            exclude.Add(currentNode);
+            // Get Random Node
+            GridNode currentNode = availableNodes[Random.Range(0, availableNodes.Count)];
+            chainedNodes.Add(currentNode); // Adds first element of chain.
+            exclude.Add(currentNode); // Ads node to exclusion.
 
             // Check for more same types.
-            //CheckNeighborsType(currentNode);
-            //CreateRandomComboAmount(randomNode);
+            CheckNeighborsType(chainedNodes, 0);
+            CreateCombo(chainedNodes);
 
             // Recursion
             generatedCombos++;
@@ -59,30 +59,51 @@ public class Match3Generate : MonoBehaviour
         }
     }
 
-    private void CheckNeighborsType(GridNode currentNode)
-    {
-        foreach (var node in chainedNodes)
+    private void CheckNeighborsType(List<GridNode> newChain, int currentIndex)
+    {       
+        // Adds neighbors if any is the same, also exclude.
+        foreach (var neighbor in newChain[currentIndex].Neighbors)
         {
-            foreach (var neighbor in node.Neighbors)
+            if (!chainedNodes.Contains(neighbor))
             {
-                if (neighbor.CurrentBlock.BlockType == chainedNodes[0].CurrentBlock.BlockType)
+                if (!exclude.Contains(neighbor))
+                {               
+                }
+
+                if (neighbor.CurrentBlock.BlockType == newChain[0].CurrentBlock.BlockType)
                 {
-                    chainedNodes.Add(neighbor);
+                    if (!newChain.Contains(neighbor))
+                    {
+                        newChain.Add(neighbor);
+                        exclude.Add(neighbor);
+                    }
                 }
             }
         }
+
+        if (currentIndex != newChain.Count - 1) // If it's not the last keep checking.
+        {
+            CheckNeighborsType(newChain, currentIndex+1);
+        }        
     }
 
 
-    private void CreateRandomComboAmount(GridNode currentNode)
+    private void CreateCombo(List<GridNode> chainedNodes)
     {
-        if (chainedNodes.Count <= GameManager.Instance.GameCustomization.GetComboAmount)
+        int generateAmount = GameManager.Instance.GameCustomization.GetComboAmount - chainedNodes.Count; // Difference for minimum combo.
+        GridNode randomFromChain = chainedNodes[Random.Range(0, chainedNodes.Count)];
+
+        for (int i = 0; i < generateAmount; i++)
         {
-
-
-            /*
-            int randomVecino = Random.Range(0, currentNode.Neighbors.Count);
-            GridNode vecino = currentNode.Neighbors[randomVecino];*/
+            foreach (var neighbor in randomFromChain.Neighbors)
+            {
+                if (!exclude.Contains(neighbor))
+                {
+                    exclude.Add(neighbor);
+                    neighbor.CurrentBlock.BlockType = chainedNodes[0].CurrentBlock.BlockType;
+                    break;
+                }                
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ public class GridNode : MonoBehaviour
 	[Header("Node Data")]
 	[SerializeField] private BlockController currentBlock;
 	[SerializeField]  private GridNode lastFallLocation;
-	private Image debugImage;
+	public Image debugImage;
 	private List<GridNode> checkedNodes = new List<GridNode>();
 
 

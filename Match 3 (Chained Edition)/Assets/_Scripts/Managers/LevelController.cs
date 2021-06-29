@@ -75,8 +75,8 @@ public class LevelController : MonoBehaviour
     private void HandleGenerateGame()
     {
         match3Generate.GenerateBlocks(); // Generates First Blocks
-        //match3Generate.DeleteStartingCombos();
-        //match3Generate.CreateStartingCombos();
+        match3Generate.DeleteStartingCombos();
+        match3Generate.CreateStartingCombos();
 
 
 

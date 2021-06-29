@@ -95,6 +95,7 @@ MonoBehaviour:
   chainedNodes: []
   currentBlock: {fileID: 0}
   lastFallLocation: {fileID: 0}
+  debugImage: {fileID: 8836797837800397729}
 --- !u!114 &1139160088608034816
 MonoBehaviour:
   m_ObjectHideFlags: 0
