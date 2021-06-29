@@ -40,4 +40,9 @@ public class BlockController : MonoBehaviour
     {
 		Destroy(gameObject);
     }
+	[ContextMenu("Update Me!")]
+	public void UpdateBlockType()
+    {
+		blockView.Artwork.sprite = blockModel.BlockType.artwork;
+    }
 }

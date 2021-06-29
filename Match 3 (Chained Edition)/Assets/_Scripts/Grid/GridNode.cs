@@ -16,6 +16,7 @@ public class GridNode : MonoBehaviour
 	[SerializeField] private BlockController currentBlock;
 	[SerializeField]  private GridNode lastFallLocation;
 	private Image debugImage;
+	private List<GridNode> checkedNodes = new List<GridNode>();
 
 
 
@@ -46,13 +47,11 @@ public class GridNode : MonoBehaviour
         {
 			if (CurrentBlock != null)
             {
-				debugImage.color = Color.blue;
 				return true;
             }
 
 			else
             {
-				debugImage.color = Color.gray;
 				return false;
             }
         }
@@ -94,8 +93,19 @@ public class GridNode : MonoBehaviour
 					GridNode node = FindNeighborID(x, y, nodesList);
 
 					if (node != null )
-					{						
-						Neighbors.Add(node);
+					{
+						if (GameManager.Instance.GameCustomization.GetComboMode() == GameCustomization.ComboMode.HORIZONTAL)
+						{
+							if ((x == nodeID.x && y != nodeID.y) || (x != nodeID.x && y == nodeID.y))
+							{
+								Neighbors.Add(node);
+							}
+						}
+
+						else
+                        {
+							Neighbors.Add(node);
+                        }
 					}
 
 					if (x == nodeID.x + 1 && y == nodeID.y)
@@ -136,7 +146,6 @@ public class GridNode : MonoBehaviour
 		{
 			node.CurrentBlock.Destroy();
 			GameManager.Instance.updatedNodes.Add(node);
-			//node.chainedNodes.Clear();
 		}
 
 		ClearChained();
@@ -155,97 +164,52 @@ public class GridNode : MonoBehaviour
 			if (lastFallLocation.nodeBelow.HasBlock == false)
             {
 				lastFallLocation = lastFallLocation.NodeBelow;
-				lastFallLocation.debugImage.color = Color.yellow;
 				SearchAirBelow();
             }
         }
     }
 
 	[ContextMenu("Debug Create New Chain")]
-	public void CreateNewChain(GameCustomization.ComboMode comboMode)
+	public void CreateNewChain()
     {
 		if (chainedNodes != null) { ClearChained(); }
+
 		chainedNodes.Add(this); // Adds first element for chain.
-		CheckChainType(comboMode, chainedNodes, 0); // Check for chain in first element.
+		checkedNodes.Add(this);
+		//if (debugImage != null) { debugImage.color = Color.red; }
+
+		CheckChainedNodes(chainedNodes, 0);
 		CheckChainSize(chainedNodes);
     }
-	private void CheckChainType(GameCustomization.ComboMode comboMode, List<GridNode> chainList, int currentNode)
+
+	[ContextMenu("NEW CHECKING")]
+	public void CheckChainedNodes(List<GridNode> currentChain, int currentNodeIndex)
     {
-		if (comboMode == GameCustomization.ComboMode.DIAGONAL)
+		int currentNodeAtIndex = currentNodeIndex;
+        foreach (var neighbor in currentChain[currentNodeAtIndex].Neighbors)
         {
-			CheckDiagonalChains(chainList, currentNode);
-        }
+			if (checkedNodes.Contains(neighbor)) continue;
 
-		else if (comboMode == GameCustomization.ComboMode.HORIZONTAL)
-        {
-			CheckAdyacentChains(chainList, currentNode);
-        }
-    } // Diagonal or Adyacent.
-	private void CheckDiagonalChains(List<GridNode> chainList, int currentNode)
-    {
-		int currentNodeInChain = currentNode;
-
-		foreach (var vecino in chainList[currentNodeInChain].Neighbors)
-		{
-			//vecino.debugImage.color = Color.yellow; // IS PART OF CHECKED
-
-			if (vecino != null && vecino.currentBlock != null)
+			else if (neighbor != null && neighbor.currentBlock != null) // CHECK IF NOT NULL VALUES
 			{
-				if (vecino.CurrentBlock.BlockType == chainList[0].CurrentBlock.BlockType)
+				//if (debugImage != null) { neighbor.debugImage.color = Color.yellow; }
+
+				if (neighbor.CurrentBlock.BlockType == chainedNodes[0].CurrentBlock.BlockType) // CHECK FOR SAME TYPE	
 				{
-					for (int i = 0; i < chainList.Count; i++)
+					for (int i = 0; i < chainedNodes.Count; i++)
 					{
-						if (!chainList.Contains(vecino))
+						if (!chainedNodes.Contains(neighbor)) // CHECK FOR NOT REPEAT
 						{
-							chainList.Add(vecino);
+							chainedNodes.Add(neighbor);
 						}
 					}
 				}
 			}
 		}
 
-		if (currentNodeInChain >= chainList.Count - 1)
+		if (currentNodeAtIndex != chainedNodes.Count - 1) // If it's not the last keep checking.
 		{
-            foreach (var item in chainList)
-            {
-				//item.debugImage.color = Color.blue; // ITEMS IN CHAIN
-            }
-		}
-
-		else
-		{
-			CheckDiagonalChains(chainList, currentNodeInChain + 1);
-		}
-	}
-	private void CheckAdyacentChains(List<GridNode> chainList, int currentNode)
-    {
-		int currentNodeInChain = currentNode;
-
-		foreach (var vecino in chainList[currentNodeInChain].Neighbors)
-		{
-			if (vecino.nodeID.x == chainList[currentNodeInChain].NodeID.x || vecino.nodeID.y == chainList[currentNodeInChain].NodeID.y) // CHECK FOR ADYACENT.
-            {
-				vecino.debugImage.color = Color.yellow; // IS PART OF CHECKED
-
-				if (vecino != null && vecino.currentBlock != null) // CHECK IF NOT NULL VALUES
-				{
-					if (vecino.CurrentBlock.BlockType == chainList[0].CurrentBlock.BlockType) // CHECK FOR SAME TYPE	
-					{
-						for (int i = 0; i < chainList.Count; i++)
-						{
-							if (!chainList.Contains(vecino)) // CHECK FOR NOT REPEAT
-							{
-								chainList.Add(vecino);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		if (currentNodeInChain != chainList.Count - 1) // If it's not the last keep checking.
-		{
-			CheckAdyacentChains(chainList, currentNodeInChain + 1);
+			CheckChainedNodes(chainedNodes, currentNodeAtIndex + 1);
 		}
 	}
 
@@ -253,17 +217,23 @@ public class GridNode : MonoBehaviour
 	{
 		if (chainList.Count >= GameManager.Instance.GridGameplay.MinimumCombo)
 		{
+			
+
 			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GENERATE_GAME)
             {
 				RandomizeType();
             }
 
-			else
-            {
-				AddUpdatedNodes(chainList);
-				ClearSuccessfulChain(chainList);
-            }
+			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.PLAYER_TURN)
+			{
+				if (GameManager.Instance.Help == true) { PaintCombo(); }
 
+				if (GameManager.Instance.Help == false)
+				{
+					AddUpdatedNodes(chainList);
+					ClearSuccessfulChain(chainList);
+				}
+			}
 		}
 	}
 	private void AddUpdatedNodes(List<GridNode> chainList)
@@ -271,12 +241,9 @@ public class GridNode : MonoBehaviour
         foreach (var node in chainList)
         {
 			GameManager.Instance.updatedNodes.Add(node);
-			node.debugImage.color = Color.green;
-
             foreach (var vecino in node.Neighbors)
             {
 				GameManager.Instance.updatedNodes.Add(vecino);
-				vecino.debugImage.color = Color.white;
             }
         }
     }
@@ -285,26 +252,7 @@ public class GridNode : MonoBehaviour
 	/*
 	 * Debug
 	 */
-	[ContextMenu("Debug Paint Neighbors")]
-	private void DebugPaintNeighbors()
-    {
-		debugImage.color = Color.yellow;
 
-        foreach (var item in Neighbors)
-        {
-			item.debugImage.color = Color.green;
-        }
-    }
-	[ContextMenu("Debug Clear Neighbors")]
-	private void DebugClearNeighbors()
-	{
-		debugImage.color = Color.clear;
-
-		foreach (var item in Neighbors)
-		{
-			item.debugImage.color = Color.clear;
-		}
-	}
 	[ContextMenu("NEW BLOCK")]
 	private void RandomizeType()
     {
@@ -322,7 +270,15 @@ public class GridNode : MonoBehaviour
 
 	public void CHAIN()
     {
-		CreateNewChain(GameManager.Instance.GameCustomization.GetComboMode());
+		CreateNewChain();
+    }
+
+	private void PaintCombo()
+    {
+        foreach (var node in chainedNodes)
+        {
+			if (node.debugImage != null) { node.debugImage.color = Color.green; }
+		}
     }
 
 }

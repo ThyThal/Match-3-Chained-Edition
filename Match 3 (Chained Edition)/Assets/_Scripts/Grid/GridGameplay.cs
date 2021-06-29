@@ -21,7 +21,7 @@ public class GridGameplay : MonoBehaviour
     {
         foreach (var node in gridGenerator.NodesArray)
         {
-            node.CreateNewChain(GameManager.Instance.GameCustomization.GetComboMode());
+            node.CreateNewChain();
         }
     }
 }
