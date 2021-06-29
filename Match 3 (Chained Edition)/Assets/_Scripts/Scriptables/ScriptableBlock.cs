@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Match-3/Block")]
 public sealed class ScriptableBlock : ScriptableObject

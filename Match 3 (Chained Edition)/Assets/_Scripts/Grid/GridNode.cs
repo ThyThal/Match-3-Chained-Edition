@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,12 @@ public class GridNode : MonoBehaviour
 	[Header("Node Information")]
 	[SerializeField] private Vector2 nodeID;
 	[SerializeField] private List<GridNode> neighbors;
+	[SerializeField] private GridNode nodeBelow;
 	[SerializeField] private List<GridNode> chainedNodes;
 
 	[Header("Node Data")]
 	[SerializeField] private BlockController currentBlock;
+	[SerializeField]  private GridNode lastFallLocation;
 	private Image debugImage;
 
 
@@ -33,6 +36,27 @@ public class GridNode : MonoBehaviour
 		get { return currentBlock;}
 		set { currentBlock = value; }
 	}
+	public GridNode NodeBelow
+    {
+		get { return nodeBelow; }
+    }
+	public bool HasBlock
+    {
+        get
+        {
+			if (CurrentBlock != null)
+            {
+				debugImage.color = Color.blue;
+				return true;
+            }
+
+			else
+            {
+				debugImage.color = Color.gray;
+				return false;
+            }
+        }
+    }
 
     /*
 	 * MonoBehaviours
@@ -74,6 +98,11 @@ public class GridNode : MonoBehaviour
 						Neighbors.Add(node);
 					}
 
+					if (x == nodeID.x + 1 && y == nodeID.y)
+                    {
+						nodeBelow = node;
+                    }
+
                 }
 			}
 		}
@@ -106,28 +135,48 @@ public class GridNode : MonoBehaviour
 		foreach (var node in chainList)
 		{
 			node.CurrentBlock.Destroy();
+			GameManager.Instance.updatedNodes.Add(node);
 			//node.chainedNodes.Clear();
 		}
 
 		ClearChained();
 	}
 
+	[ContextMenu("Last Fall Location")]
+	public void SearchAirBelow()
+    {
+		if (nodeBelow.HasBlock == false && lastFallLocation == null)
+        {
+			lastFallLocation = nodeBelow; // Set First Fall Location.
+        }
+
+		if (lastFallLocation != null)
+        {
+			if (lastFallLocation.nodeBelow.HasBlock == false)
+            {
+				lastFallLocation = lastFallLocation.NodeBelow;
+				lastFallLocation.debugImage.color = Color.yellow;
+				SearchAirBelow();
+            }
+        }
+    }
+
 	[ContextMenu("Debug Create New Chain")]
-	public void CreateNewChain(bool diagonalChain)
+	public void CreateNewChain(GameCustomization.ComboMode comboMode)
     {
 		if (chainedNodes != null) { ClearChained(); }
 		chainedNodes.Add(this); // Adds first element for chain.
-		CheckChainType(diagonalChain, chainedNodes, 0); // Check for chain in first element.
+		CheckChainType(comboMode, chainedNodes, 0); // Check for chain in first element.
 		CheckChainSize(chainedNodes);
     }
-	private void CheckChainType(bool diagonalChain, List<GridNode> chainList, int currentNode)
+	private void CheckChainType(GameCustomization.ComboMode comboMode, List<GridNode> chainList, int currentNode)
     {
-		if (diagonalChain == true)
+		if (comboMode == GameCustomization.ComboMode.DIAGONAL)
         {
 			CheckDiagonalChains(chainList, currentNode);
         }
 
-		else
+		else if (comboMode == GameCustomization.ComboMode.HORIZONTAL)
         {
 			CheckAdyacentChains(chainList, currentNode);
         }
@@ -204,9 +253,33 @@ public class GridNode : MonoBehaviour
 	{
 		if (chainList.Count >= GameManager.Instance.GridGameplay.MinimumCombo)
 		{
-			ClearSuccessfulChain(chainList);
+			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GENERATE_GAME)
+            {
+				RandomizeType();
+            }
+
+			else
+            {
+				AddUpdatedNodes(chainList);
+				ClearSuccessfulChain(chainList);
+            }
+
 		}
 	}
+	private void AddUpdatedNodes(List<GridNode> chainList)
+    {
+        foreach (var node in chainList)
+        {
+			GameManager.Instance.updatedNodes.Add(node);
+			node.debugImage.color = Color.green;
+
+            foreach (var vecino in node.Neighbors)
+            {
+				GameManager.Instance.updatedNodes.Add(vecino);
+				vecino.debugImage.color = Color.white;
+            }
+        }
+    }
 
 
 	/*
@@ -232,4 +305,24 @@ public class GridNode : MonoBehaviour
 			item.debugImage.color = Color.clear;
 		}
 	}
+	[ContextMenu("NEW BLOCK")]
+	private void RandomizeType()
+    {
+		List<ScriptableBlock> blockTypes = GameManager.Instance.BlocksData.Blocks.ToList();
+		List<ScriptableBlock> usedTypes = new List<ScriptableBlock>();
+
+		foreach (var vecino in Neighbors)
+		{
+			usedTypes.Add(vecino.CurrentBlock.BlockType);
+		}
+
+		List<ScriptableBlock> freeTypes = blockTypes.Except(usedTypes).ToList();
+		CurrentBlock.BlockType = freeTypes[Random.Range(0, freeTypes.Count)];
+	}
+
+	public void CHAIN()
+    {
+		CreateNewChain(GameManager.Instance.GameCustomization.GetComboMode());
+    }
+
 }

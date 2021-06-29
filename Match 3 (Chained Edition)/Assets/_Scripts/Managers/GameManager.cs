@@ -20,8 +20,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameCustomization gameCustomization;
+    [SerializeField] private LevelController levelController;
+
+
+
     [SerializeField] private DatabaseBlocks blocksData;
     [SerializeField] private GridGameplay gridGameplay;
+    [SerializeField] public List<GridNode> updatedNodes;
     public DatabaseBlocks BlocksData
     {
         get { return blocksData; }
@@ -30,5 +36,14 @@ public class GameManager : MonoBehaviour
     public GridGameplay GridGameplay
     {
         get { return gridGameplay; }
+    }
+
+    public LevelController LevelController
+    {
+        get { return levelController; }
+    }
+    public GameCustomization GameCustomization
+    {
+        get { return gameCustomization; }
     }
 }

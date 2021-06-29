@@ -13,6 +13,7 @@ public class BlockController : MonoBehaviour
 	public ScriptableBlock BlockType
     {
 		get { return blockModel.BlockType; }
+		set { blockModel.BlockType = value; blockView.Artwork.sprite = blockModel.BlockType.artwork; }
     }
 
     /*

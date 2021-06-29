@@ -7,7 +7,6 @@ public class GridGenerator : MonoBehaviour
 {
     [Header("Main Things")]
     [SerializeField] private List<GridNode> nodesArray;
-    [SerializeField] private List<GameObject> pooledBlocks;
 
     [Header("Grid")]
     [SerializeField] private Vector2 gridSize;
@@ -40,7 +39,7 @@ public class GridGenerator : MonoBehaviour
     }
 
     /*
-     * First Game Methods.
+     * Create Game Board Methods.
      */
     [ContextMenu("(Update) Board Size View")]
     private void GenerateBoardSize() // Board Size Visual. 
@@ -83,4 +82,18 @@ public class GridGenerator : MonoBehaviour
     /*
      * Restart Game Methods.
      */
+    [ContextMenu("(Update) Blocks Position")]
+    public void UpdateBlocksPosition()
+    {
+        if (GameManager.Instance.updatedNodes != null)
+        {
+            for (int i = GameManager.Instance.updatedNodes.Count - 1; i >= 0; i--)
+            {
+                GridNode currentNode = GameManager.Instance.updatedNodes[i];
+                currentNode.SearchAirBelow();
+            }
+
+            GameManager.Instance.updatedNodes = null;
+        }
+    }
 }
