@@ -215,7 +215,7 @@ public class GridNode : MonoBehaviour
 
 	private void CheckChainSize(List<GridNode> chainList)
 	{
-		if (chainList.Count >= GameManager.Instance.GridGameplay.MinimumCombo)
+		if (chainList.Count >= GameManager.Instance.GameCustomization.GetComboAmount)
 		{
 			
 

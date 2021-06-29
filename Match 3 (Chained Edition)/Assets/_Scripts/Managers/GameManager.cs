@@ -22,21 +22,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameCustomization gameCustomization;
     [SerializeField] private LevelController levelController;
-
-
-
     [SerializeField] private DatabaseBlocks blocksData;
-    [SerializeField] private GridGameplay gridGameplay;
     [SerializeField] public List<GridNode> updatedNodes;
     private bool help = false;
     public DatabaseBlocks BlocksData
     {
         get { return blocksData; }
-    }
-
-    public GridGameplay GridGameplay
-    {
-        get { return gridGameplay; }
     }
 
     public LevelController LevelController

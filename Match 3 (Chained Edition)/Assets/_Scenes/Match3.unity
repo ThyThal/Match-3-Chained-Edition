@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 52584782}
   - component: {fileID: 52584781}
   m_Layer: 5
-  m_Name: =[] Game State
+  m_Name: =[] Game State (text)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,10 +569,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446830400}
-  - component: {fileID: 1446830401}
-  - component: {fileID: 1446830402}
   m_Layer: 5
-  m_Name: =[] Board Manager
+  m_Name: =[] Match 3 Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -599,41 +597,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1045, y: 1045}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1446830401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1446830399}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9531767d9ccdbf64f8d63992bc88db57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodesArray: []
-  gridSize: {x: 10, y: 10}
-  gridNode: {fileID: 8836797837800397731, guid: de353e05ba6a43743b3e3db6afef5a9c, type: 3}
-  cellSize: {x: 100, y: 100}
-  spacing: {x: 5, y: 5}
-  gridHolder: {fileID: 1446830400}
-  gridLayout: {fileID: 1445096340}
-  gridBackground: {fileID: 907744143}
---- !u!114 &1446830402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1446830399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5571c036036e5409a3c5d41f65b74f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minimumCombo: 3
-  gridGenerator: {fileID: 1446830401}
-  gridChain: []
 --- !u!1 &1689437930
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,7 +764,7 @@ PrefabInstance:
     - target: {fileID: 5330122999966195367, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
       propertyPath: gridGameplay
       value: 
-      objectReference: {fileID: 1446830402}
+      objectReference: {fileID: 0}
     - target: {fileID: 5330122999966195367, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
       propertyPath: levelController
       value: 
