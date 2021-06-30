@@ -19,7 +19,7 @@ public class Match3Helper : MonoBehaviour
 
         foreach (var node in available)
         {
-            node.CreateNewChain();
+            node.DetectChain();
         }
 
         GameManager.Instance.Help = false;

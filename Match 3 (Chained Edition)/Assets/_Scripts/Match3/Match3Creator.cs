@@ -20,6 +20,8 @@ public class Match3Creator : MonoBehaviour
 
     public void GenerateBoardSize() // Board Size Visual. 
     {
+        GameManager.Instance.BottomID = (int)gridSize.x - 1;
+
         // Board Holder
         gridHolder.sizeDelta = (cellSize * gridSize) + ((gridSize - Vector2.one) * spacing);
 
@@ -33,6 +35,7 @@ public class Match3Creator : MonoBehaviour
     }
     public void GenerateBoardNodes() // Instantiate Nodes & Blocks.
     {
+        int indexCounter = 0;
         for (int x = 0; x < gridSize.x; x++)
         {
             for (int y = 0; y < gridSize.y; y++)
@@ -41,7 +44,10 @@ public class Match3Creator : MonoBehaviour
                 GridNode node = nodeObject.GetComponent<GridNode>();
                 node.name = $"NodeBlock ({x}, {y})";
                 node.NodeID = new Vector2(x, y);
+                node.NodeIndex = indexCounter;
                 GameManager.Instance.LevelController.NodesArray.Add(node);
+
+                indexCounter++;
             }
         }
 

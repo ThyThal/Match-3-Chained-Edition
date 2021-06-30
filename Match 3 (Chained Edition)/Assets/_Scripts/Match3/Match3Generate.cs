@@ -30,7 +30,7 @@ public class Match3Generate : MonoBehaviour
 
         foreach (var node in nodes)
         {
-            node.CreateNewChain();
+            node.DetectChain();
         }
     }
 

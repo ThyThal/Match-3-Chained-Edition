@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5330122999966195367}
   - component: {fileID: 5518142192411893190}
   - component: {fileID: 553670549}
+  - component: {fileID: 4313161520290833200}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,10 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cb335c887f2ed4aae360c3f551cd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCustomization: {fileID: 0}
+  gameCustomization: {fileID: 553670549}
   levelController: {fileID: 0}
   blocksData: {fileID: 5518142192411893190}
-  gridGameplay: {fileID: 0}
   updatedNodes: []
 --- !u!114 &5518142192411893190
 MonoBehaviour:
@@ -74,8 +74,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75909c5625852c4e8d87411c7343b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboMode: 0
+  playerComboMode: 1
+  chainComboMode: 1
+  updatingMode: 0
   comboAmount: 3
   startingCombos: 0
   minimumCombos: 3
   maximumCombos: 5
+--- !u!114 &4313161520290833200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887450505403531275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594e5eb4781e8e0429bbd327adb2ebd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  available: []
+  exclude: []

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DatabaseBlocks blocksData;
     [SerializeField] public List<GridNode> updatedNodes;
     private bool help = false;
+    private int bottomID;
     public DatabaseBlocks BlocksData
     {
         get { return blocksData; }
@@ -42,6 +43,11 @@ public class GameManager : MonoBehaviour
     {
         get { return help; }
         set { help = value; }
+    }
+    public int BottomID
+    {
+        get { return bottomID; }
+        set { bottomID = value; }
     }
 
 }

@@ -202,36 +202,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52584779}
   m_CullTransparentMesh: 0
---- !u!1 &553670545 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1887450505403531275, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-  m_PrefabInstance: {fileID: 3147385152562055710}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &553670546 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 553670549, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-  m_PrefabInstance: {fileID: 3147385152562055710}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553670545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75909c5625852c4e8d87411c7343b83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &553670549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553670545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 594e5eb4781e8e0429bbd327adb2ebd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  available: []
-  exclude: []
 --- !u!1 &590088139
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +219,8 @@ GameObject:
   - component: {fileID: 590088146}
   - component: {fileID: 590088147}
   - component: {fileID: 590088148}
+  - component: {fileID: 590088149}
+  - component: {fileID: 590088150}
   m_Layer: 5
   m_Name: =[] UI CANVAS
   m_TagString: Untagged
@@ -393,6 +365,8 @@ MonoBehaviour:
   state: 0
   match3Creator: {fileID: 590088147}
   match3Generate: {fileID: 590088148}
+  match3Falling: {fileID: 590088149}
+  match3Gameplay: {fileID: 590088150}
 --- !u!114 &590088147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +399,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 820900373523186907, guid: 7c4cadeafcc56b848b60146bbdeb14c1, type: 3}
+--- !u!114 &590088149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6656daa6034971e4899ee7518907197b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &590088150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b513f26aab1285046860c2e3a57efb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerChainlink: []
 --- !u!1 &907744142
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +753,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 553670549, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-      propertyPath: comboMode
+      propertyPath: playerComboMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1887450505403531275, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
@@ -762,17 +761,9 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 5330122999966195367, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-      propertyPath: gridGameplay
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5330122999966195367, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
       propertyPath: levelController
       value: 
       objectReference: {fileID: 590088146}
-    - target: {fileID: 5330122999966195367, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-      propertyPath: gameCustomization
-      value: 
-      objectReference: {fileID: 553670546}
     - target: {fileID: 6710519388183176808, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
       propertyPath: m_RootOrder
       value: 1
