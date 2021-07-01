@@ -19,7 +19,7 @@ public class GridNode : MonoBehaviour
 	[SerializeField]  private GridNode lastFallLocation;
 	public Image debugImage;
 	private List<GridNode> checkedNodes = new List<GridNode>();
-	public event EventHandler OnChainComplete;
+	public event EventHandler FinishedChainlink;
 
 
 
@@ -76,7 +76,7 @@ public class GridNode : MonoBehaviour
     private void Start()
     {
 		debugImage = GetComponent<Image>();
-		OnChainComplete += TriggerHandler;
+		FinishedChainlink += TriggerEndTurn;
     }
 
     /*
@@ -307,7 +307,7 @@ public class GridNode : MonoBehaviour
 			DetectChain();
 			GameManager.Instance.LevelController.Match3Gameplay.PlayerChainlink = new List<GridNode>(chainedNodes);
 			chainedNodes.Clear();
-			OnChainComplete?.Invoke(this, EventArgs.Empty);
+			FinishedChainlink?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
@@ -319,9 +319,30 @@ public class GridNode : MonoBehaviour
 		}
     }
 
-	private void TriggerHandler(object sender, EventArgs e)
+	private void TriggerEndTurn(object sender, EventArgs e)
     {
-		GameManager.Instance.LevelController.HandlePlayerTurn();
+		GameManager.Instance.LevelController.HandlePlayerTurn(this);
 	}
 
+
+
+	/*
+	 * Chainlink
+	 */
+	public void HandleCreateChainlink()
+    {
+		Debug.Log("Create Chainlink!");
+		GameManager.Instance.LevelController.Match3Gameplay.ChainlinkCreate(this);
+		//FinishedChainlink?.Invoke(this, EventArgs.Empty);
+	}
+	public void HandleAddChainlink()
+    {
+		GameManager.Instance.LevelController.Match3Gameplay.ChainlinkCheck(this);
+    }
+
+	public void HandleStopChain()
+    {
+		Debug.Log("Finished Chain");
+		FinishedChainlink?.Invoke(this, EventArgs.Empty);
+	}
 }

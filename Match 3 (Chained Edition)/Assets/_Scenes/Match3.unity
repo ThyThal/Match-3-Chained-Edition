@@ -424,6 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerChainlink: []
+  startedChain: 0
+  chainType: {fileID: 0}
 --- !u!1 &907744142
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,11 +95,9 @@ public class LevelController : MonoBehaviour
     }
 
     [ContextMenu("AYUDA")]
-    public void HandlePlayerTurn()
+    public void HandlePlayerTurn(GridNode currentNode)
     {
-        match3Gameplay.CreateChainlink();
-        match3Gameplay.ClearSuccessfulChain();
-
+        match3Gameplay.ChainlinkClear();
         UpdateGameState(GameState.GAME_FALLING_BLOCKS);
     }
 
