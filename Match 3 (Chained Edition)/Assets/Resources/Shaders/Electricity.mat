@@ -25,12 +25,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_3FC8DCCD: 2
-    - Vector1_48549E3D: 0.5
+    - Vector1_48549E3D: 1
     - Vector1_69741CA5: 20
     - _ElectricityPower: 0
     m_Colors:
     - Color_5917951F: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_7ED674E6: {r: 0.1, g: -0.5, b: 0, a: 0}
     - Vector2_C6A99DF3: {r: 0, g: 0.5, b: 0, a: 0}
-    - _Color: {r: 2.9960785, g: 2.9960785, b: 0.5019608, a: 1}
+    - _Color: {r: 2.9960785, g: 2.0392158, b: 0.36078432, a: 1}
   m_BuildTextureStacks: []

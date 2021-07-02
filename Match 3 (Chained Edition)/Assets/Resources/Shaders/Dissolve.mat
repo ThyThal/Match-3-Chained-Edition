@@ -27,7 +27,7 @@ Material:
     - Vector1_5FD4B566: 1
     - Vector1_E7F5CCBB: 15
     - _Fade: 1
-    - _Scale: 20
+    - _Scale: 0.1
     m_Colors:
     - Color_1A7E5D51: {r: 2.9960785, g: 0.76862746, b: 0.5019608, a: 1}
   m_BuildTextureStacks: []

@@ -7,6 +7,7 @@ public class Match3Gameplay : MonoBehaviour
     [SerializeField] private List<GridNode> playerChainlink;
     [SerializeField] private bool startedChain = false;
     [SerializeField] private ScriptableBlock chainType;
+    [SerializeField] private LineRenderer lineRenderer;
 
 
     public List<GridNode> PlayerChainlink
@@ -57,7 +58,8 @@ public class Match3Gameplay : MonoBehaviour
             startedChain = true;
             playerChainlink.Add(currentNode);
             chainType = currentNode.CurrentBlock.BlockType;
-            currentNode.debugImage.color = Color.yellow;
+            //currentNode.debugImage.color = Color.yellow;
+            currentNode.CurrentBlock.HandleSelectedBlock();
         }
     }
 
@@ -85,7 +87,8 @@ public class Match3Gameplay : MonoBehaviour
                     if (currentNode.CurrentBlock.BlockType == chainType)
                     {
                         playerChainlink.Add(currentNode);
-                        currentNode.debugImage.color = Color.yellow; // Chain Added Block.
+                        //currentNode.debugImage.color = Color.yellow; // Chain Added Block.
+                        currentNode.CurrentBlock.HandleSelectedBlock();
                     }
                 }
             }

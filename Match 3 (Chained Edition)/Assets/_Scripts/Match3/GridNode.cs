@@ -331,18 +331,16 @@ public class GridNode : MonoBehaviour
 	 */
 	public void HandleCreateChainlink()
     {
-		Debug.Log("Create Chainlink!");
 		GameManager.Instance.LevelController.Match3Gameplay.ChainlinkCreate(this);
 		//FinishedChainlink?.Invoke(this, EventArgs.Empty);
 	}
 	public void HandleAddChainlink()
     {
 		GameManager.Instance.LevelController.Match3Gameplay.ChainlinkCheck(this);
-    }
+	}
 
 	public void HandleStopChain()
     {
-		Debug.Log("Finished Chain");
 		FinishedChainlink?.Invoke(this, EventArgs.Empty);
 	}
 }

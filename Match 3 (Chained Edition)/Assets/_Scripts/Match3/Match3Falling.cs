@@ -66,7 +66,7 @@ public class Match3Falling : MonoBehaviour
     private void AddSequence(GridNode currentNode)
     {
         newSequence.Join(currentNode.CurrentBlock.transform.DOMove(currentNode.FallLocation.transform.position, tweenDuration));
-        currentNode.CurrentBlock.transform.parent = currentNode.FallLocation.transform;
+        currentNode.CurrentBlock.transform.SetParent(currentNode.FallLocation.transform);
         currentNode.FallLocation.CurrentBlock = currentNode.CurrentBlock;
         currentNode.CurrentBlock = null;
     }

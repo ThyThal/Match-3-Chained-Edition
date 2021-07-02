@@ -46,4 +46,9 @@ public class BlockController : MonoBehaviour
     {
 		blockView.Artwork.sprite = blockModel.BlockType.artwork;
     }
+
+	public void HandleSelectedBlock()
+    {
+		blockView.EnableSelectedMaterial();
+    }
 }

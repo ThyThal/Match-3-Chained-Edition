@@ -51,21 +51,21 @@ public class LevelController : MonoBehaviour
         switch (newState)
         {
             case GameState.GAME_CREATE:
-                Debug.Log("[0] Creating Game!");
+                //Debug.Log("[0] Creating Game!");
                 HandleCreateBoard();
                 break;
 
             case GameState.GAME_GENERATE:
-                Debug.Log("[1] Creating Blocks!");
+                //Debug.Log("[1] Creating Blocks!");
                 HandleGenerateGame();
                 break;
 
             case GameState.GAME_PLAYER_TURN:
-                Debug.Log("[2] Player Turn!");
+                //Debug.Log("[2] Player Turn!");
                 break;
 
             case GameState.GAME_FALLING_BLOCKS:
-                Debug.Log("[3] Falling Blocks!");
+                //Debug.Log("[3] Falling Blocks!");
                 HandleFallingBlocks();
                 break;
 
