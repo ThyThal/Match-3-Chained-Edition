@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1979963106175823207}
   - component: {fileID: 6328999911269009362}
   - component: {fileID: -9043277064879570196}
-  - component: {fileID: 8945318124313664527}
+  - component: {fileID: -1989886005104240624}
   m_Layer: 5
   m_Name: Block
   m_TagString: Untagged
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 9a0c1ce1a0ef59947b69c168bc7dda97, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   artwork: {fileID: 7728612031829635572}
-  shaderElectricity: {fileID: 8945318124313664527}
+  shaderElectricity: {fileID: 0}
 --- !u!222 &-9043277064879570196
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820900373523186907}
   m_CullTransparentMesh: 0
---- !u!114 &8945318124313664527
+--- !u!114 &-1989886005104240624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,12 +129,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 820900373523186907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7475fddd443c9334b8dab77c942c8e21, type: 3}
+  m_Script: {fileID: 11500000, guid: 12dde2e00a53c5f4b9c55c54cb6490d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 0}
-  electricityMaterial: {fileID: 2100000, guid: 8091aa4af2d85c042b60ffb3ccbdcb2b, type: 2}
-  image: {fileID: 7728612031829635572}
-  isSelected: 0
-  time: 1
-  maxPower: 2
+  material: {fileID: 0}
+  isDissolving: 0
+  fade: 1

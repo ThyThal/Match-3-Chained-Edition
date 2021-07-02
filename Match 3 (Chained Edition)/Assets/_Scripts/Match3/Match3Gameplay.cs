@@ -58,8 +58,8 @@ public class Match3Gameplay : MonoBehaviour
             startedChain = true;
             playerChainlink.Add(currentNode);
             chainType = currentNode.CurrentBlock.BlockType;
-            //currentNode.debugImage.color = Color.yellow;
-            currentNode.CurrentBlock.HandleSelectedBlock();
+            lineRenderer.positionCount = 1;
+            lineRenderer.SetPosition(0, new Vector3(currentNode.transform.position.x, currentNode.transform.position.y, 0));
         }
     }
 
@@ -74,6 +74,7 @@ public class Match3Gameplay : MonoBehaviour
                 {
                     playerChainlink[playerChainlink.Count - 1].debugImage.color = Color.clear; // Chain Remove Color.
                     playerChainlink.RemoveAt(playerChainlink.Count - 1);
+                    lineRenderer.positionCount--;
                 }
             }
 
@@ -88,7 +89,13 @@ public class Match3Gameplay : MonoBehaviour
                     {
                         playerChainlink.Add(currentNode);
                         //currentNode.debugImage.color = Color.yellow; // Chain Added Block.
-                        currentNode.CurrentBlock.HandleSelectedBlock();
+
+                        if (lineRenderer.positionCount < playerChainlink.Count)
+                        {
+                            lineRenderer.positionCount++;
+                        }
+
+                        lineRenderer.SetPosition(playerChainlink.Count - 1, new Vector3(currentNode.transform.position.x, currentNode.transform.position.y, 0));
                     }
                 }
             }
@@ -115,6 +122,7 @@ public class Match3Gameplay : MonoBehaviour
             }
         }
 
+        lineRenderer.positionCount = 0;
         playerChainlink.Clear();
     }
 }
