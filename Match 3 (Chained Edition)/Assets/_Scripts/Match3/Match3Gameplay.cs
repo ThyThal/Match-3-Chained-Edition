@@ -58,6 +58,7 @@ public class Match3Gameplay : MonoBehaviour
             startedChain = true;
             playerChainlink.Add(currentNode);
             chainType = currentNode.CurrentBlock.BlockType;
+            currentNode.CurrentBlock.HandleSelectedBlock();
             lineRenderer.positionCount = 1;
             lineRenderer.SetPosition(0, new Vector3(currentNode.transform.position.x, currentNode.transform.position.y, 0));
         }
@@ -67,11 +68,13 @@ public class Match3Gameplay : MonoBehaviour
     {
         if (startedChain == true)
         {
+            // Removing
             if (playerChainlink.Contains(currentNode) && playerChainlink.Count > 1)
             {
                 var previousNode = playerChainlink[playerChainlink.Count - 2]; // Previous of the last element;
                 if (previousNode == currentNode)
                 {
+                    playerChainlink[playerChainlink.Count - 1].CurrentBlock.HandleUnselectBlock();
                     playerChainlink[playerChainlink.Count - 1].debugImage.color = Color.clear; // Chain Remove Color.
                     playerChainlink.RemoveAt(playerChainlink.Count - 1);
                     lineRenderer.positionCount--;
@@ -87,6 +90,7 @@ public class Match3Gameplay : MonoBehaviour
                     // Check if block is the same type as chain.
                     if (currentNode.CurrentBlock.BlockType == chainType)
                     {
+                        currentNode.CurrentBlock.HandleSelectedBlock();
                         playerChainlink.Add(currentNode);
                         //currentNode.debugImage.color = Color.yellow; // Chain Added Block.
 
@@ -95,6 +99,7 @@ public class Match3Gameplay : MonoBehaviour
                             lineRenderer.positionCount++;
                         }
 
+                        // Adding Lines
                         lineRenderer.SetPosition(playerChainlink.Count - 1, new Vector3(currentNode.transform.position.x, currentNode.transform.position.y, 0));
                     }
                 }
@@ -109,6 +114,7 @@ public class Match3Gameplay : MonoBehaviour
             foreach (var node in playerChainlink)
             {
                 node.debugImage.color = Color.clear;
+                node.CurrentBlock.HandleUnselectBlock();
                 node.CurrentBlock.DestroyBlock();
                 node.CurrentBlock = null;
             }            
@@ -118,6 +124,7 @@ public class Match3Gameplay : MonoBehaviour
         {
             foreach (var node in playerChainlink)
             {
+                node.CurrentBlock.HandleUnselectBlock();
                 node.debugImage.color = Color.clear;
             }
         }

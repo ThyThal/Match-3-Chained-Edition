@@ -22,6 +22,8 @@ public class BlockController : MonoBehaviour
     private void Awake()
     {
 		SelectRandomBlock();
+		var trans = GetComponent<RectTransform>();
+		trans.sizeDelta = GameManager.Instance.LevelController.Match3Creator.CellSize;
 	}
 
 	/*
@@ -45,5 +47,15 @@ public class BlockController : MonoBehaviour
 	public void UpdateBlockType()
     {
 		blockView.Artwork.sprite = blockModel.BlockType.artwork;
+    }
+
+	public void HandleSelectedBlock()
+    {
+		blockView.TriggerShaderSelect();
+    }
+
+	public void HandleUnselectBlock()
+    {
+		blockView.TriggerShaderUnselect();
     }
 }

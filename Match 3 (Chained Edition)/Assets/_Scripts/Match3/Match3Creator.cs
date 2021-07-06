@@ -18,9 +18,22 @@ public class Match3Creator : MonoBehaviour
     [SerializeField] private GridLayoutGroup gridLayout;
     [SerializeField] private RectTransform gridBackground;
 
+    public Vector2 CellSize
+    { 
+        get
+        { 
+            return cellSize;
+        } 
+    }
+
+
+    [ContextMenu("Update View!")]
     public void GenerateBoardSize() // Board Size Visual. 
     {
-        GameManager.Instance.BottomID = (int)gridSize.x - 1;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.BottomID = (int)gridSize.x - 1;
+        }
 
         // Board Holder
         gridHolder.sizeDelta = (cellSize * gridSize) + ((gridSize - Vector2.one) * spacing);

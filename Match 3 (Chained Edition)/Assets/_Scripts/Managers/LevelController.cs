@@ -33,6 +33,11 @@ public class LevelController : MonoBehaviour
     {
         get { return state; }
     }
+
+    public Match3Creator Match3Creator
+    {
+        get { return match3Creator; }
+    }
     public Match3Gameplay Match3Gameplay
     {
         get { return match3Gameplay; }
