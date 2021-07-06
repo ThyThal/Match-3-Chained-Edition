@@ -23,6 +23,11 @@ public class ShaderSelected : MonoBehaviour
 
     private void Update()
     {
+        if (triggerSelected == true && triggerUnselected == true)
+        {
+            triggerSelected = false;
+        }
+
         if (triggerSelected == true)
         {
             time -= Time.deltaTime;

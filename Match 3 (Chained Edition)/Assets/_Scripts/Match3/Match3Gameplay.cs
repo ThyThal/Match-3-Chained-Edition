@@ -53,7 +53,7 @@ public class Match3Gameplay : MonoBehaviour
      */
     public void ChainlinkCreate(GridNode currentNode)
     {
-        if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN)
+        if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN && currentNode.CurrentBlock != null)
         {
             startedChain = true;
             playerChainlink.Add(currentNode);
@@ -66,7 +66,7 @@ public class Match3Gameplay : MonoBehaviour
 
     public void ChainlinkCheck(GridNode currentNode)
     {
-        if (startedChain == true)
+        if (startedChain == true && currentNode.CurrentBlock != null)
         {
             // Removing
             if (playerChainlink.Contains(currentNode) && playerChainlink.Count > 1)
