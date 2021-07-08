@@ -9,7 +9,6 @@ public class Match3Gameplay : MonoBehaviour
     [SerializeField] private ScriptableBlock chainType;
     [SerializeField] private LineRenderer lineRenderer;
 
-
     public List<GridNode> PlayerChainlink
     {
         get { return playerChainlink; }
@@ -19,7 +18,7 @@ public class Match3Gameplay : MonoBehaviour
 
     public void ClearSuccessfulChain()
     {
-		if (playerChainlink.Count >= GameManager.Instance.GameCustomization.GetComboAmount)
+		if (playerChainlink.Count >= GameManager.Instance.GameCustomization.playerCustomization.ComboAmount)
 		{
 			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN)
 			{
@@ -32,7 +31,6 @@ public class Match3Gameplay : MonoBehaviour
             playerChainlink.Clear();
         }
 	}
-
     private void RemoveBlocks()
     {
         foreach (var node in playerChainlink)
@@ -45,8 +43,6 @@ public class Match3Gameplay : MonoBehaviour
 
         playerChainlink.Clear();
     }
-
-
 
     /*
      * Chainlink
@@ -63,7 +59,6 @@ public class Match3Gameplay : MonoBehaviour
             lineRenderer.SetPosition(0, new Vector3(currentNode.transform.position.x, currentNode.transform.position.y, 0));
         }
     }
-
     public void ChainlinkCheck(GridNode currentNode)
     {
         if (startedChain == true && currentNode.CurrentBlock != null)
@@ -106,14 +101,12 @@ public class Match3Gameplay : MonoBehaviour
             }
         }
     }
-
     public void ChainlinkClear()
     {
-        if (playerChainlink.Count >= GameManager.Instance.GameCustomization.GetComboAmount)
+        if (playerChainlink.Count >= GameManager.Instance.GameCustomization.playerCustomization.ComboAmount)
         {
             foreach (var node in playerChainlink)
-            {
-                node.debugImage.color = Color.clear;
+            {                
                 node.CurrentBlock.HandleUnselectBlock();
                 node.CurrentBlock.DestroyBlock();
                 node.CurrentBlock = null;

@@ -12,20 +12,7 @@ public class Match3Falling : MonoBehaviour
 
     public void UpdateFallingBlocks()
     {
-        if (GameManager.Instance.GameCustomization.GetUpdatingMode() == GameCustomization.UpdatingMode.UPDATE_USED)
-        {
-            UpdateUsed();
-        }
-
-        if (GameManager.Instance.GameCustomization.GetUpdatingMode() == GameCustomization.UpdatingMode.UPDATE_EVERYTING)
-        {
-            UpdateEverything();
-        }
-    }
-
-    private void UpdateUsed()
-    {
-
+        UpdateEverything();
     }
 
     private void UpdateEverything()
@@ -42,25 +29,10 @@ public class Match3Falling : MonoBehaviour
             if (currentNode.FallLocation != null)
             {
                 AddSequence(currentNode);
-                //await Fall(currentNode);
             }
         }
 
         PlayTweenSequence();
-    }
-
-
-    private async Task Fall(GridNode currentNode)
-    {
-        var sequence = DOTween.Sequence();
-
-        sequence.Join(currentNode.CurrentBlock.transform.DOMove(currentNode.FallLocation.transform.position, tweenDuration));
-
-        await sequence.Play().AsyncWaitForCompletion();
-
-        currentNode.CurrentBlock.transform.parent = currentNode.FallLocation.transform;
-        currentNode.FallLocation.CurrentBlock = currentNode.CurrentBlock;
-        currentNode.CurrentBlock = null;
     }
 
     private void AddSequence(GridNode currentNode)

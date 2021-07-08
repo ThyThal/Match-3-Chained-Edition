@@ -108,7 +108,7 @@ public class GridNode : MonoBehaviour
 
 					if (node != null )
 					{
-						if (GameManager.Instance.GameCustomization.GetComboMode() == GameCustomization.PlayerComboMode.HORIZONTAL)
+						if (GameManager.Instance.GameCustomization.playerCustomization.PlayerChainMode == GameCustomization.PlayerChainMode.HORIZONTAL)
 						{
 							if ((x == nodeID.x && y != nodeID.y) || (x != nodeID.x && y == nodeID.y))
 							{
@@ -126,8 +126,7 @@ public class GridNode : MonoBehaviour
                     {
 						nodeBelow = node;
                     }
-
-                }
+				}
 			}
 		}
 
@@ -234,52 +233,6 @@ public class GridNode : MonoBehaviour
 			CheckChainedNodes(chainedNodes, currentNodeAtIndex + 1);
 		}
 	}
-
-	private void CheckChainSize(List<GridNode> chainList)
-	{
-		if (chainList.Count >= GameManager.Instance.GameCustomization.GetComboAmount)
-		{
-			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_GENERATE)
-			{
-				RandomizeType();
-			}
-
-			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN)
-			{
-				if (GameManager.Instance.Help == true) { HelperPaintCombo(); }
-
-				if (GameManager.Instance.Help == false)
-				{
-					AddUpdatedNodes(chainList);
-					ClearSuccessfulChain(chainList);
-				}
-			}
-		}
-	}
-	private void AddUpdatedNodes(List<GridNode> chainList)
-    {
-        foreach (var node in chainList)
-        {
-			if (!GameManager.Instance.updatedNodes.Contains(node))
-            {
-				//node.debugImage.color = Color.green;
-				GameManager.Instance.updatedNodes.Add(node);
-			}
-
-            foreach (var vecino in node.Neighbors)
-            {
-				if (!GameManager.Instance.updatedNodes.Contains(vecino))
-				{
-					if (!chainedNodes.Contains(vecino))
-                    {
-						GameManager.Instance.updatedNodes.Add(vecino);
-						vecino.debugImage.color = Color.blue;
-					}
-				}
-            }
-        }
-    }
-
 
 	/*
 	 * Debug

@@ -13,13 +13,15 @@ public class LevelController : MonoBehaviour
     [SerializeField] private Text stateText;
     [SerializeField] private GameState state;
     private static event Action<GameState> OnGameStateChanged;
-    
+
 
     [Header("Game Components")]
+    [SerializeField] private PoolingSystem poolingSystem;
     [SerializeField] private Match3Creator match3Creator;
     [SerializeField] private Match3Generate match3Generate;
     [SerializeField] private Match3Falling match3Falling;
     [SerializeField] private Match3Gameplay match3Gameplay;
+    [SerializeField] private Match3Regenerate match3Regenerate;
 
     public enum GameState
     {
@@ -27,13 +29,19 @@ public class LevelController : MonoBehaviour
         GAME_GENERATE,
         GAME_PLAYER_TURN,
         GAME_FALLING_BLOCKS,
-        REGENERATE_BOARD
+        GAME_REGENERATE_BOARD,
+        GAME_AUTOMATIC_CHAINING
+
     }
     public GameState CurrentState
     {
         get { return state; }
     }
 
+    public PoolingSystem PoolingSystem
+    {
+        get { return poolingSystem; }
+    }
     public Match3Creator Match3Creator
     {
         get { return match3Creator; }
@@ -41,6 +49,10 @@ public class LevelController : MonoBehaviour
     public Match3Gameplay Match3Gameplay
     {
         get { return match3Gameplay; }
+    }
+    public Match3Regenerate Match3Regenerate
+    {
+        get { return match3Regenerate; }
     }
 
     private void Start()
@@ -58,6 +70,7 @@ public class LevelController : MonoBehaviour
             case GameState.GAME_CREATE:
                 //Debug.Log("[0] Creating Game!");
                 HandleCreateBoard();
+                
                 break;
 
             case GameState.GAME_GENERATE:
@@ -66,7 +79,7 @@ public class LevelController : MonoBehaviour
                 break;
 
             case GameState.GAME_PLAYER_TURN:
-                //Debug.Log("[2] Player Turn!");
+                Debug.Log("[2] Player Turn!");
                 break;
 
             case GameState.GAME_FALLING_BLOCKS:
@@ -74,7 +87,14 @@ public class LevelController : MonoBehaviour
                 HandleFallingBlocks();
                 break;
 
-            case GameState.REGENERATE_BOARD:
+            case GameState.GAME_REGENERATE_BOARD:
+                Debug.Log("[4] Regenerating Board!");
+                HandleBoardRegeneration();
+                break;
+
+            case GameState.GAME_AUTOMATIC_CHAINING:
+                Debug.Log("[5] Automatic Combo Finding!");
+                HandleAutomaticChaining();
                 break;
 
             default:
@@ -87,7 +107,8 @@ public class LevelController : MonoBehaviour
     private void HandleCreateBoard()
     {
         match3Creator.GenerateBoardSize(); // Generates Game Size
-        match3Creator.GenerateBoardNodes(); // Creates Nodes.        
+        match3Creator.GenerateBoardNodes(); // Creates Nodes.
+        poolingSystem.PoolCreator();
         UpdateGameState(GameState.GAME_GENERATE);
     }
 
@@ -109,6 +130,17 @@ public class LevelController : MonoBehaviour
     private void HandleFallingBlocks()
     {        
         match3Falling.UpdateFallingBlocks();
+        UpdateGameState(GameState.GAME_REGENERATE_BOARD);
+    }
+
+    private void HandleBoardRegeneration()
+    {
+        match3Regenerate.RegenerateBoard();
+        UpdateGameState(GameState.GAME_AUTOMATIC_CHAINING);
+    }
+
+    private void HandleAutomaticChaining()
+    {
         UpdateGameState(GameState.GAME_PLAYER_TURN);
     }
 }

@@ -216,11 +216,13 @@ GameObject:
   - component: {fileID: 590088140}
   - component: {fileID: 590088145}
   - component: {fileID: 590088144}
+  - component: {fileID: 590088152}
   - component: {fileID: 590088146}
   - component: {fileID: 590088147}
   - component: {fileID: 590088148}
   - component: {fileID: 590088149}
   - component: {fileID: 590088150}
+  - component: {fileID: 590088153}
   - component: {fileID: 590088151}
   m_Layer: 5
   m_Name: =[] UI CANVAS
@@ -365,10 +367,12 @@ MonoBehaviour:
   NodesArray: []
   stateText: {fileID: 52584781}
   state: 0
+  poolingSystem: {fileID: 590088152}
   match3Creator: {fileID: 590088147}
   match3Generate: {fileID: 590088148}
   match3Falling: {fileID: 590088149}
   match3Gameplay: {fileID: 590088150}
+  match3Regenerate: {fileID: 590088153}
 --- !u!114 &590088147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +529,34 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &590088152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9504f6744d7b89d46a863f2d9ecd06ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - name: Blocks
+    prefab: {fileID: 820900373523186907, guid: 7c4cadeafcc56b848b60146bbdeb14c1, type: 3}
+    size: 0
+--- !u!114 &590088153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1442f23ddb30024dbc75c91f2aa98bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896094685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,10 +1239,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 553670549, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
-      propertyPath: playerComboMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1887450505403531275, guid: 1160fdb059a35da42b3d98f90021e0b3, type: 3}
       propertyPath: m_Name
       value: GameManager

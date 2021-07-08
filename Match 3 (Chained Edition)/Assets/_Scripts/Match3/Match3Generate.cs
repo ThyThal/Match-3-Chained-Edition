@@ -18,7 +18,8 @@ public class Match3Generate : MonoBehaviour
 
         foreach (var node in nodes)
         {
-            var block = Instantiate(blockPrefab, node.transform);
+            var block = GameManager.Instance.LevelController.PoolingSystem.SpawnFromPool("Blocks", node.transform);
+            //var block = Instantiate(blockPrefab, node.transform);
             node.CurrentBlock = block.GetComponent<BlockController>();
         }
     }
@@ -38,7 +39,7 @@ public class Match3Generate : MonoBehaviour
     {
         chainedNodes.Clear();
 
-        if (generatedCombos < GameManager.Instance.GameCustomization.GetStartingCombos)
+        if (generatedCombos < GameManager.Instance.GameCustomization.startingCustomization.StartingCombos)
         {
             // Generate New List with exclusions.
             List<GridNode> availableNodes = GameManager.Instance.LevelController.NodesArray;
@@ -90,7 +91,7 @@ public class Match3Generate : MonoBehaviour
 
     private void CreateCombo(List<GridNode> chainedNodes)
     {
-        int generateAmount = GameManager.Instance.GameCustomization.GetComboAmount - chainedNodes.Count; // Difference for minimum combo.
+        int generateAmount = GameManager.Instance.GameCustomization.playerCustomization.ComboAmount - chainedNodes.Count; // Difference for minimum combo.
         GridNode randomFromChain = chainedNodes[Random.Range(0, chainedNodes.Count)];
 
         for (int i = 0; i < generateAmount; i++)

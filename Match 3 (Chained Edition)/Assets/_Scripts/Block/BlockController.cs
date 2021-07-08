@@ -40,6 +40,8 @@ public class BlockController : MonoBehaviour
 
 	public void DestroyBlock()
 	{
+		//Debug.Log(GameManager.Instance.LevelController.PoolingSystem.poolDictionary["Blocks"].Count);
+		GameManager.Instance.LevelController.PoolingSystem.AddToPool("Blocks", this.gameObject);
 		Destroy(gameObject);
 	}
 

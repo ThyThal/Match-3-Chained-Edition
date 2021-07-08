@@ -4,48 +4,86 @@ using UnityEngine;
 
 public class GameCustomization : MonoBehaviour
 {
-    [Header("Combo Settings")]
-    [SerializeField] private PlayerComboMode playerComboMode = PlayerComboMode.HORIZONTAL;
-    [SerializeField] private ChainComboMode chainComboMode = ChainComboMode.HORIZONTAL;
-    [SerializeField] private UpdatingMode updatingMode = UpdatingMode.UPDATE_USED;
-    [SerializeField] private int comboAmount = 3;
-    [SerializeField] private int startingCombos;
-    [SerializeField] private int minimumCombos = 3;
-    [SerializeField] private int maximumCombos = 5;
-    public enum PlayerComboMode
-    {
-        DIAGONAL,
-        HORIZONTAL
-    }
-    public enum UpdatingMode
-    {
-        UPDATE_EVERYTING,
-        UPDATE_USED
-    }
-    public enum ChainComboMode
-    {
-        DIAGONAL,
-        HORIZONTAL
-    }
+    [SerializeField] public StartingCustomization startingCustomization;
+    [SerializeField] public PlayerCustomization playerCustomization;
+    [SerializeField] public AutomaticChainCustomization automaticChain;
 
-    public PlayerComboMode GetComboMode()
-    { return playerComboMode; }
-    public UpdatingMode GetUpdatingMode()
-    { return updatingMode; }
-    public int GetStartingCombos
+    [System.Serializable]
+    public class StartingCustomization
     {
-        get
+        [SerializeField] private int minimumCombos = 3;
+        [SerializeField] private int maximumCombos = 5;
+        private int startingCombos = 3;
+
+        public int StartingCombos
         {
-            if (startingCombos <= 0) 
-            { 
-                startingCombos = Random.Range(minimumCombos, maximumCombos); 
-            }
+            get
+            {
+                if (startingCombos <= 0)
+                {
+                    startingCombos = Random.Range(minimumCombos, maximumCombos);
+                }
 
-            return startingCombos;
+                return startingCombos;
+            }
         }
     }
-    public int GetComboAmount
+
+    [System.Serializable]
+    public class PlayerCustomization
     {
-        get { return comboAmount; }
+        [SerializeField] private PlayerChainMode playerChainMode = PlayerChainMode.HORIZONTAL;
+        [SerializeField] private int comboAmount = 3;
+
+        public PlayerChainMode PlayerChainMode
+        {
+            get { return playerChainMode; }
+        }
+        public int ComboAmount
+        {
+            get { return comboAmount; }
+        }
+    }
+
+    [System.Serializable]
+    public class AutomaticChainCustomization
+    {
+        [SerializeField] private AutomaticChainMode automaticChainMode = AutomaticChainMode.HORIZONTAL;
+        [SerializeField] private int comboAmount = 3;
+
+        public AutomaticChainMode AutomaticChainMode
+        {
+            get { return automaticChainMode; }
+        }
+        public int ComboAmount
+        {
+            get { return comboAmount; }
+        }
+    }
+
+    [System.Serializable]
+    public class RegenerateCustomization
+    {
+        [SerializeField] private RegenerateMode regenerateMode = RegenerateMode.EVERYTHING;
+        public RegenerateMode RegenerateMode
+        {
+            get { return regenerateMode; }
+        }
+    }
+
+    public enum PlayerChainMode
+    {
+        DIAGONAL,
+        HORIZONTAL
+    }
+    public enum AutomaticChainMode
+    {
+        DIAGONAL,
+        HORIZONTAL
+    }
+    public enum RegenerateMode
+    {
+        EVERYTHING,
+        FALLING
     }
 }

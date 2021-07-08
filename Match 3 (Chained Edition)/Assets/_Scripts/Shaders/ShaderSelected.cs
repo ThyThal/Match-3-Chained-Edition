@@ -6,14 +6,19 @@ using UnityEngine.UI;
 public class ShaderSelected : MonoBehaviour
 {
     [SerializeField] private Material selectedMaterial;
-    [SerializeField] public bool triggerSelected = false;
-    [SerializeField] public bool triggerUnselected = false;
     [SerializeField] private float time = 1;
     [SerializeField] private float fade = 1;
     [SerializeField] private float currentFade;
     [SerializeField] private Image image;
 
     private float originalTimer;
+    [SerializeField] public bool fadingSelected;
+    [SerializeField] public bool fadingUnselected;
+    [SerializeField] private bool isFading;
+
+
+
+
 
     private void Start()
     {
@@ -23,39 +28,76 @@ public class ShaderSelected : MonoBehaviour
 
     private void Update()
     {
-        if (triggerSelected == true && triggerUnselected == true)
+        if (isFading)
         {
-            triggerSelected = false;
-        }
-
-        if (triggerSelected == true)
-        {
-            time -= Time.deltaTime;
-            currentFade = Mathf.Lerp(fade, 0, time);
-
-            if (time <= 0)
+            if (fadingSelected == true && fadingUnselected == false)
             {
-                time = originalTimer;
-                triggerSelected = false;
-                fade = 1;
+                FadeSelect();
             }
 
-            image.material.SetFloat("_Fade", currentFade);
-        }
-
-        if (triggerUnselected == true)
-        {
-            time -= Time.deltaTime;
-            currentFade = Mathf.Lerp(0, fade, time);
-
-            if (time <= 0)
+            if (fadingUnselected == true && fadingSelected == false)
             {
-                time = originalTimer;
-                triggerUnselected = false;
-                fade = 1;
+                FadeUnselect();
             }
-
-            image.material.SetFloat("_Fade", currentFade);
         }
+    }
+
+    public void StartFade()
+    {
+        if (isFading == true)
+        {
+            OverrideFade();
+        }
+
+        if (isFading == false)
+        {
+            isFading = true;
+        }
+    }
+
+    private void OverrideFade()
+    {
+        if (fadingSelected == true) // Override Selected Fade
+        {
+            fadingSelected = false;
+            fadingUnselected = true;
+        }
+
+        else if (fadingUnselected == true) // Override Unselected Fade
+        {
+            fadingUnselected = false;
+            fadingSelected = true;
+        }
+    }
+
+    private void FadeSelect()
+    {
+        time -= Time.deltaTime;
+        currentFade = Mathf.Lerp(fade, 0, time);
+
+        if (time <= 0)
+        {
+            time = originalTimer;
+            isFading = false;
+            fadingSelected = false;
+            fade = 1;
+        }
+
+        image.material.SetFloat("_Fade", currentFade);
+    }
+    private void FadeUnselect()
+    {
+        time -= Time.deltaTime;
+        currentFade = Mathf.Lerp(0, fade, time);
+
+        if (time <= 0)
+        {
+            time = originalTimer;
+            isFading = false;
+            fadingUnselected = false;
+            fade = 1;
+        }
+
+        image.material.SetFloat("_Fade", currentFade);
     }
 }

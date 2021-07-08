@@ -74,13 +74,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75909c5625852c4e8d87411c7343b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerComboMode: 1
-  chainComboMode: 1
-  updatingMode: 0
-  comboAmount: 3
-  startingCombos: 0
-  minimumCombos: 3
-  maximumCombos: 5
+  startingCustomization:
+    startingCombos: 3
+    minimumCombos: 3
+    maximumCombos: 5
+  playerCustomization:
+    playerChainMode: 0
+    comboAmount: 3
+  automaticChain:
+    automaticChainMode: 1
+    comboAmount: 3
 --- !u!114 &4313161520290833200
 MonoBehaviour:
   m_ObjectHideFlags: 0

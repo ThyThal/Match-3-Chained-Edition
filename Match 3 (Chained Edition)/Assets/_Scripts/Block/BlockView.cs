@@ -14,11 +14,13 @@ public class BlockView : MonoBehaviour
 
     public void TriggerShaderSelect()
     {
-        shaderSelected.triggerSelected = true;
+        shaderSelected.StartFade();
+        shaderSelected.fadingSelected = true;
     }
 
     public void TriggerShaderUnselect()
     {
-        shaderSelected.triggerUnselected = true;
+        shaderSelected.StartFade();
+        shaderSelected.fadingUnselected = true;
     }
 }
