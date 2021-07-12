@@ -153,16 +153,6 @@ public class GridNode : MonoBehaviour
 	{
 		chainedNodes.Clear();
 	}
-	private void ClearSuccessfulChain(List<GridNode> chainList)
-	{
-		foreach (var node in chainList)
-		{
-			node.CurrentBlock.DestroyBlock();
-			//GameManager.Instance.updatedNodes.Add(node);
-		}
-
-		ClearChained();
-	}
 
 	[ContextMenu("Last Fall Location")]
 	public void SearchLastFallingLocation()

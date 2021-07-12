@@ -8,13 +8,17 @@ public class Match3Gameplay : MonoBehaviour
     [SerializeField] private bool startedChain = false;
     [SerializeField] private ScriptableBlock chainType;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private bool successfulChain = false;
 
     public List<GridNode> PlayerChainlink
     {
         get { return playerChainlink; }
         set { playerChainlink = value; }
     }
-
+    public bool SuccessfulChain
+    {
+        get { return successfulChain; }
+    }
 
     public void ClearSuccessfulChain()
     {
@@ -22,7 +26,8 @@ public class Match3Gameplay : MonoBehaviour
 		{
 			if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN)
 			{
-				RemoveBlocks();
+                var timer = playerChainlink[0].CurrentBlock.DestroyTime;
+				StartCoroutine(DestroyBlocks(timer));
 			}
 		}
 
@@ -35,10 +40,13 @@ public class Match3Gameplay : MonoBehaviour
     {
         foreach (var node in playerChainlink)
         {
-            node.ClearChained();
-            node.CurrentBlock.DestroyBlock();
-            node.CurrentBlock = null;
-            GameManager.Instance.LevelController.NodesArray[node.NodeIndex] = node;
+            if (successfulChain == true)
+            {
+                node.ClearChained();
+                node.CurrentBlock.DestroyBlock();
+                node.CurrentBlock = null;
+                GameManager.Instance.LevelController.NodesArray[node.NodeIndex] = node;
+            }
         }
 
         playerChainlink.Clear();
@@ -49,7 +57,7 @@ public class Match3Gameplay : MonoBehaviour
      */
     public void ChainlinkCreate(GridNode currentNode)
     {
-        if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN && currentNode.CurrentBlock != null)
+        if (GameManager.Instance.LevelController.CurrentState == LevelController.GameState.GAME_PLAYER_TURN && currentNode.CurrentBlock != null && startedChain == false)
         {
             startedChain = true;
             playerChainlink.Add(currentNode);
@@ -61,7 +69,7 @@ public class Match3Gameplay : MonoBehaviour
     }
     public void ChainlinkCheck(GridNode currentNode)
     {
-        if (startedChain == true && currentNode.CurrentBlock != null)
+        if (startedChain == true && currentNode.CurrentBlock != null && successfulChain == false)
         {
             // Removing
             if (playerChainlink.Contains(currentNode) && playerChainlink.Count > 1)
@@ -72,7 +80,11 @@ public class Match3Gameplay : MonoBehaviour
                     playerChainlink[playerChainlink.Count - 1].CurrentBlock.HandleUnselectBlock();
                     playerChainlink[playerChainlink.Count - 1].debugImage.color = Color.clear; // Chain Remove Color.
                     playerChainlink.RemoveAt(playerChainlink.Count - 1);
-                    lineRenderer.positionCount--;
+
+                    if (lineRenderer.positionCount > 0)
+                    {
+                        lineRenderer.positionCount--;
+                    }
                 }
             }
 
@@ -105,24 +117,45 @@ public class Match3Gameplay : MonoBehaviour
     {
         if (playerChainlink.Count >= GameManager.Instance.GameCustomization.playerCustomization.ComboAmount)
         {
-            foreach (var node in playerChainlink)
-            {                
-                node.CurrentBlock.HandleUnselectBlock();
-                node.CurrentBlock.DestroyBlock();
-                node.CurrentBlock = null;
-            }            
+            successfulChain = true;
+
+            var timer = playerChainlink[0].CurrentBlock.DestroyTime;
+            StartCoroutine(DestroyBlocks(timer));          
         }
 
         else
         {
+            successfulChain = false;
+
             foreach (var node in playerChainlink)
             {
                 node.CurrentBlock.HandleUnselectBlock();
                 node.debugImage.color = Color.clear;
             }
-        }
 
+            playerChainlink.Clear();
+            startedChain = false;
+        }
+        
         lineRenderer.positionCount = 0;
-        playerChainlink.Clear();
+    }
+
+    private IEnumerator DestroyBlocks(float waiting)
+    {
+        foreach (var node in playerChainlink)
+        {
+            BlockController block = node.CurrentBlock;
+            block.Destroyed = true;
+        } // Play Destroy Effect
+
+        yield return new WaitForSeconds(waiting);
+        RemoveBlocks();
+
+        if (GameManager.Instance.LevelController.Match3Gameplay.SuccessfulChain == true)
+        {
+            successfulChain = false;
+            startedChain = false;
+            GameManager.Instance.LevelController.UpdateGameState(LevelController.GameState.GAME_FALLING_BLOCKS);
+        }
     }
 }

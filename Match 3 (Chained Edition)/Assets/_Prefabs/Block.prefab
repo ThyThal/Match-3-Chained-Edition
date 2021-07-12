@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: db37f9e7df5ad2348acdaffb2613eed9, type: 2}
+  m_Material: {fileID: 2100000, guid: 7abed0474cc5a6241bb7ef48d99ed3cd, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -85,6 +85,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockModel: {fileID: -1979963106175823207}
   blockView: {fileID: 6328999911269009362}
+  destroyTime: 1
+  destroyed: 0
 --- !u!114 &-1979963106175823207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,9 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d563f96d1718e040aa1fa43e5d2665d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedMaterial: {fileID: 2100000, guid: db37f9e7df5ad2348acdaffb2613eed9, type: 2}
-  isSelected: 0
-  time: 0.25
+  selectedMaterial: {fileID: 2100000, guid: 7abed0474cc5a6241bb7ef48d99ed3cd, type: 2}
+  blockController: {fileID: 4503957676865057085}
+  selectTimer: 0.75
   fade: 1
   currentFade: 0
   image: {fileID: 7728612031829635572}
+  fadingSelected: 0
+  fadingUnselected: 0
+  isFading: 0

@@ -60,7 +60,7 @@ public class LevelController : MonoBehaviour
         UpdateGameState(GameState.GAME_CREATE);
     }
 
-    private void UpdateGameState(GameState newState)
+    public void UpdateGameState(GameState newState)
     {
         state = newState;
         stateText.text = newState.ToString();
@@ -79,7 +79,7 @@ public class LevelController : MonoBehaviour
                 break;
 
             case GameState.GAME_PLAYER_TURN:
-                Debug.Log("[2] Player Turn!");
+                //Debug.Log("[2] Player Turn!");
                 break;
 
             case GameState.GAME_FALLING_BLOCKS:
@@ -88,12 +88,12 @@ public class LevelController : MonoBehaviour
                 break;
 
             case GameState.GAME_REGENERATE_BOARD:
-                Debug.Log("[4] Regenerating Board!");
+                //Debug.Log("[4] Regenerating Board!");
                 HandleBoardRegeneration();
                 break;
 
             case GameState.GAME_AUTOMATIC_CHAINING:
-                Debug.Log("[5] Automatic Combo Finding!");
+                //Debug.Log("[5] Automatic Combo Finding!");
                 HandleAutomaticChaining();
                 break;
 
@@ -124,13 +124,12 @@ public class LevelController : MonoBehaviour
     public void HandlePlayerTurn(GridNode currentNode)
     {
         match3Gameplay.ChainlinkClear();
-        UpdateGameState(GameState.GAME_FALLING_BLOCKS);
     }
 
     private void HandleFallingBlocks()
     {        
         match3Falling.UpdateFallingBlocks();
-        UpdateGameState(GameState.GAME_REGENERATE_BOARD);
+        //UpdateGameState(GameState.GAME_REGENERATE_BOARD);
     }
 
     private void HandleBoardRegeneration()

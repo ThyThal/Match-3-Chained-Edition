@@ -6,6 +6,8 @@ public class BlockController : MonoBehaviour
 {
     [SerializeField] private BlockModel blockModel;
     [SerializeField] private BlockView blockView;
+	[SerializeField] private float destroyTime = 0.25f;
+	[SerializeField] private bool destroyed = false;
 
 	/*
 	 * Properties
@@ -14,6 +16,15 @@ public class BlockController : MonoBehaviour
     {
 		get { return blockModel.BlockType; }
 		set { blockModel.BlockType = value; UpdateBlockType(); }
+    }
+	public float DestroyTime
+    {
+		get { return destroyTime; }
+    }
+	public bool Destroyed
+    {
+		get { return destroyed; }
+		set { destroyed = value; }
     }
 
     /*
@@ -29,7 +40,7 @@ public class BlockController : MonoBehaviour
 	/*
 	 * Methods
 	 */
-	private void SelectRandomBlock()
+	public void SelectRandomBlock()
     {
 		// Data
 		blockModel.BlockType = GameManager.Instance.BlocksData.Blocks[Random.Range(0, GameManager.Instance.BlocksData.Blocks.Length)];
@@ -40,9 +51,8 @@ public class BlockController : MonoBehaviour
 
 	public void DestroyBlock()
 	{
-		//Debug.Log(GameManager.Instance.LevelController.PoolingSystem.poolDictionary["Blocks"].Count);
 		GameManager.Instance.LevelController.PoolingSystem.AddToPool("Blocks", this.gameObject);
-		Destroy(gameObject);
+		gameObject.SetActive(false);
 	}
 
 	[ContextMenu("Update Me!")]
@@ -59,5 +69,10 @@ public class BlockController : MonoBehaviour
 	public void HandleUnselectBlock()
     {
 		blockView.TriggerShaderUnselect();
+    }
+	public void ResetBlock()
+    {
+		Destroyed = false;
+		blockView.ResetShader();
     }
 }

@@ -6,15 +6,18 @@ using UnityEngine.UI;
 public class ShaderSelected : MonoBehaviour
 {
     [SerializeField] private Material selectedMaterial;
-    [SerializeField] private float time = 1;
+    [SerializeField] private BlockController blockController;
+    [SerializeField] private float selectTimer = 0.25f;
     [SerializeField] private float fade = 1;
     [SerializeField] private float currentFade;
-    [SerializeField] private Image image;
+    [SerializeField] public Image image;
 
-    private float originalTimer;
+    private float originalSelectTimer;
     [SerializeField] public bool fadingSelected;
     [SerializeField] public bool fadingUnselected;
     [SerializeField] private bool isFading;
+    private float destroyTimer;
+    private float originalDestroyTimer;
 
 
 
@@ -22,13 +25,23 @@ public class ShaderSelected : MonoBehaviour
 
     private void Start()
     {
-        originalTimer = time;
+        originalSelectTimer = selectTimer;
         image.material = new Material(selectedMaterial);
+        destroyTimer = blockController.DestroyTime;
+        originalDestroyTimer = destroyTimer;
+
     }
 
     private void Update()
     {
-        if (isFading)
+        if (blockController.Destroyed == true)
+        {
+            destroyTimer -= Time.deltaTime;
+            currentFade = Mathf.Lerp(0, fade, destroyTimer);
+            image.material.SetFloat("_DestroyFade", currentFade);
+        }
+
+        else if (isFading == true && blockController.Destroyed == false)
         {
             if (fadingSelected == true && fadingUnselected == false)
             {
@@ -39,6 +52,11 @@ public class ShaderSelected : MonoBehaviour
             {
                 FadeUnselect();
             }
+        }
+
+        if (blockController.Destroyed == false)
+        {
+            image.material.SetFloat("_DestroyFade", 1);
         }
     }
 
@@ -72,12 +90,12 @@ public class ShaderSelected : MonoBehaviour
 
     private void FadeSelect()
     {
-        time -= Time.deltaTime;
-        currentFade = Mathf.Lerp(fade, 0, time);
+        selectTimer -= Time.deltaTime;
+        currentFade = Mathf.Lerp(fade, 0, selectTimer);
 
-        if (time <= 0)
+        if (selectTimer <= 0)
         {
-            time = originalTimer;
+            selectTimer = originalSelectTimer;
             isFading = false;
             fadingSelected = false;
             fade = 1;
@@ -87,17 +105,27 @@ public class ShaderSelected : MonoBehaviour
     }
     private void FadeUnselect()
     {
-        time -= Time.deltaTime;
-        currentFade = Mathf.Lerp(0, fade, time);
+        selectTimer -= Time.deltaTime;
+        currentFade = Mathf.Lerp(0, fade, selectTimer);
 
-        if (time <= 0)
+        if (selectTimer <= 0)
         {
-            time = originalTimer;
+            selectTimer = originalSelectTimer;
             isFading = false;
             fadingUnselected = false;
             fade = 1;
         }
 
         image.material.SetFloat("_Fade", currentFade);
+    }
+
+    public void ResetShader()
+    {
+        destroyTimer = originalDestroyTimer;
+        selectTimer = originalSelectTimer;
+        fadingSelected = false;
+        fadingUnselected = false;
+        image.material.SetFloat("_Fade", 0);
+        image.material.SetFloat("_DestroyFade", 1);
     }
 }

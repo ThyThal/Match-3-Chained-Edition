@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class Match3Falling : MonoBehaviour
@@ -18,6 +17,12 @@ public class Match3Falling : MonoBehaviour
     private void UpdateEverything()
     {
         List<GridNode> allNodes = new List<GridNode>(GameManager.Instance.LevelController.NodesArray);
+
+        if (newSequence != null)
+        {
+            newSequence.Kill();
+        }
+
         newSequence = DOTween.Sequence();
 
         for (int i = allNodes.Count - 1; i >= 0; i--)
@@ -32,7 +37,8 @@ public class Match3Falling : MonoBehaviour
             }
         }
 
-        PlayTweenSequence();
+        //Task.Run(() => PlayTweenSequence());
+        StartCoroutine(PlayTweenSequence());
     }
 
     private void AddSequence(GridNode currentNode)
@@ -43,8 +49,10 @@ public class Match3Falling : MonoBehaviour
         currentNode.CurrentBlock = null;
     }
 
-    private async void PlayTweenSequence()
+    IEnumerator PlayTweenSequence()
     {
-        await newSequence.Play().AsyncWaitForCompletion();
+        newSequence.Play();
+        yield return new WaitForSeconds(tweenDuration);
+        GameManager.Instance.LevelController.UpdateGameState(LevelController.GameState.GAME_REGENERATE_BOARD);
     }
 }

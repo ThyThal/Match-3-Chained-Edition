@@ -40,7 +40,7 @@ public class PoolingSystem : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(name))
         {
-            Debug.LogWarning($"Pool with name [{name}], does not exist.");
+            //Debug.LogWarning($"Pool with name [{name}], does not exist.");
             return null;
         }
 
@@ -57,7 +57,7 @@ public class PoolingSystem : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(name))
         {
-            Debug.LogWarning($"Pool with name [{name}], does not exist.");
+            //Debug.LogWarning($"Pool with name [{name}], does not exist.");
         }
 
         else

@@ -23,4 +23,9 @@ public class BlockView : MonoBehaviour
         shaderSelected.StartFade();
         shaderSelected.fadingUnselected = true;
     }
+
+    public void ResetShader()
+    {
+        shaderSelected.ResetShader();
+    }
 }

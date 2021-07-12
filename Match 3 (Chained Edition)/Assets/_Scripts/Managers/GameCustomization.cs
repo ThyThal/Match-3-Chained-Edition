@@ -7,6 +7,7 @@ public class GameCustomization : MonoBehaviour
     [SerializeField] public StartingCustomization startingCustomization;
     [SerializeField] public PlayerCustomization playerCustomization;
     [SerializeField] public AutomaticChainCustomization automaticChain;
+    [SerializeField] public RegenerateCustomization regenerateCustomization;
 
     [System.Serializable]
     public class StartingCustomization
