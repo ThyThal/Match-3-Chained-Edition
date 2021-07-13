@@ -223,7 +223,9 @@ GameObject:
   - component: {fileID: 590088149}
   - component: {fileID: 590088150}
   - component: {fileID: 590088153}
+  - component: {fileID: 590088154}
   - component: {fileID: 590088151}
+  - component: {fileID: 590088155}
   m_Layer: 5
   m_Name: =[] UI CANVAS
   m_TagString: Untagged
@@ -373,6 +375,7 @@ MonoBehaviour:
   match3Falling: {fileID: 590088149}
   match3Gameplay: {fileID: 590088150}
   match3Regenerate: {fileID: 590088153}
+  match3Automatic: {fileID: 590088154}
 --- !u!114 &590088147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +561,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1442f23ddb30024dbc75c91f2aa98bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &590088154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c5f8ae61bf0d94a9fbc8188e707776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chainedNodes:
+  - {fileID: 0}
+  usedNodes: []
+  chainedNodesClear: []
+--- !u!114 &590088155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590088139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594e5eb4781e8e0429bbd327adb2ebd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  available: []
+  exclude: []
 --- !u!1 &896094685
 GameObject:
   m_ObjectHideFlags: 0

@@ -75,7 +75,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingCustomization:
-    startingCombos: 3
     minimumCombos: 3
     maximumCombos: 5
   playerCustomization:
@@ -84,6 +83,8 @@ MonoBehaviour:
   automaticChain:
     automaticChainMode: 1
     comboAmount: 3
+  regenerateCustomization:
+    regenerateMode: 0
 --- !u!114 &4313161520290833200
 MonoBehaviour:
   m_ObjectHideFlags: 0

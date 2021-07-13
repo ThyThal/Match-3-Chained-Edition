@@ -22,6 +22,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private Match3Falling match3Falling;
     [SerializeField] private Match3Gameplay match3Gameplay;
     [SerializeField] private Match3Regenerate match3Regenerate;
+    [SerializeField] private Match3Automatic match3Automatic;
 
     public enum GameState
     {
@@ -140,6 +141,6 @@ public class LevelController : MonoBehaviour
 
     private void HandleAutomaticChaining()
     {
-        UpdateGameState(GameState.GAME_PLAYER_TURN);
+        match3Automatic.FindAutomaticChains();
     }
 }
