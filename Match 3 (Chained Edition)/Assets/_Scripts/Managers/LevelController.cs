@@ -64,7 +64,6 @@ public class LevelController : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         state = newState;
-        stateText.text = newState.ToString();
 
         switch (newState)
         {
